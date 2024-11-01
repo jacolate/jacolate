@@ -1,0 +1,14 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+    html {
+        @apply font-mono text-gray-300;
+        @apply bg-zinc-700;
+    }
+
+    body {
+        overflow: hidden;
+    }
+}
