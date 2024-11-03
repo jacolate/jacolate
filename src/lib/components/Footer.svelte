@@ -1,24 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	let { clientIP } = $props();
-
-	let weather = $state('');
-
-	const fetchWeather = async () => {
-		try {
-			const response = await fetch('https://wttr.in/Bamberg?format=%c+%t');
-			weather = await response.text();
-			console.log('Weather:', weather);
-		} catch (error) {
-			console.error('Error fetching weather:', error);
-			weather = 'Weather ..unavailable';
-		}
-	};
-
-	onMount(() => {
-		fetchWeather();
-		setInterval(fetchWeather, 3600000);
-	});
+    import { page } from '$app/stores';
+	let { clientIP, weather } = $props();
 
 	const formatDate = (date: Date) => {
 		return date
@@ -39,19 +21,28 @@
 	setInterval(() => {
 		date = formatDate(new Date());
 	}, 60000);
+
+    const isActive = (path: string) => $page.url.pathname === path;
+
 </script>
 
-<footer class="bg-gray-500 flex flex-row text-white w-full text-center justify-between">
+<footer class="bg-gray-500 flex flex-row text-white w-full text-center justify-between self-end mb-4">
 	<div class="flex flex-row justify-start">
-		<div class="bg-blue-300 px-4">
+		<a href="/">
+		<div class={`px-4 ${isActive("/") ? "bg-blue-300" : "hover:bg-red-500"}`}>
 			<p>1 > Home</p>
 		</div>
-		<div class="px-4">
-			<p>2 > IDK</p>
+		</a>
+		<a href="/projects">
+		<div class={`px-4 ${isActive("/projects") ? "bg-blue-300" : "hover:bg-red-500"}`}>
+			<p>2 > Projects</p>
 		</div>
-		<div class="px-4">
-			<p>3 > Impressum</p>
-		</div>
+		</a>
+		<a href="/impressum">
+		<div class={`px-4 ${isActive("/impressum") ? "bg-blue-300" : "hover:bg-red-500"}`}>
+				<p>3 > Impressum</p>
+			</div>
+		</a>
 	</div>
 
 	<div class="flex flex-row justify-end text-gray-800">
